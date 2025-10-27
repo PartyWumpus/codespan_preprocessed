@@ -1,12 +1,10 @@
-
-use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
 use codespan_reporting::term;
+use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
 
-use codespan_preprocessed::PreprocessedFile;
 use codespan_preprocessed::reporting::*;
+use codespan_preprocessed::PreprocessedFile;
 
 fn main() {
-
     let file = PreprocessedFile::open("examples/readme.rs").unwrap();
 
     let diagnostic = Diagnostic::note()
@@ -19,5 +17,11 @@ fn main() {
 
     let writer = StandardStream::stderr(ColorChoice::Always);
 
-    term::emit(&mut writer.lock(), &Default::default(), &file, &diagnostic.to_diagnostic(&file)).expect("can’t write diagnostic");
+    term::emit_to_write_style(
+        &mut writer.lock(),
+        &Default::default(),
+        &file,
+        &diagnostic.to_diagnostic(&file),
+    )
+    .expect("can’t write diagnostic");
 }

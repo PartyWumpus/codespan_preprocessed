@@ -61,7 +61,7 @@
 //! #   let diagnostic = Diagnostic::note();
 //! let writer = StandardStream::stderr(ColorChoice::Always);
 //! let config = codespan_reporting::term::Config::default();
-//! term::emit(&mut writer.lock(), &config, &contents, &diagnostic.to_diagnostic(&contents));
+//! term::emit_to_write_style(&mut writer.lock(), &config, &contents, &diagnostic.to_diagnostic(&contents));
 //! # }
 //!```
 //! ### Easy reporting (alternative)
@@ -99,6 +99,6 @@ mod codemap;
 mod easyloc;
 pub mod reporting;
 
-pub use codemap::PreprocessedFile;
 pub use codemap::EasyLocation;
-pub use easyloc::{EasyLocated,EasyLocator};
+pub use codemap::PreprocessedFile;
+pub use easyloc::{EasyLocated, EasyLocator};

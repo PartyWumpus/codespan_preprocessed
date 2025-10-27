@@ -1,14 +1,12 @@
-use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
 use codespan_reporting::term;
+use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
 
-use codespan_preprocessed::PreprocessedFile;
 use codespan_preprocessed::reporting::Diagnostic;
+use codespan_preprocessed::PreprocessedFile;
 
 fn main() {
-
-    let file = PreprocessedFile::new(
-        unindent::unindent(
-            r#"
+    let file = PreprocessedFile::new(unindent::unindent(
+        r#"
                     #line 1 "top_file"
                     a first statement;
                     another one
@@ -20,8 +18,7 @@ fn main() {
                     another line
                     the last one
             "#,
-        ),
-    );
+    ));
 
     let diagnostic = Diagnostic::note()
         .with_message("this is just an example")
@@ -33,5 +30,11 @@ fn main() {
 
     let writer = StandardStream::stderr(ColorChoice::Always);
 
-    term::emit(&mut writer.lock(), &Default::default(), &file, &diagnostic.to_diagnostic(&file)).expect("can’t write diagnostic");
+    term::emit_to_write_style(
+        &mut writer.lock(),
+        &Default::default(),
+        &file,
+        &diagnostic.to_diagnostic(&file),
+    )
+    .expect("can’t write diagnostic");
 }
