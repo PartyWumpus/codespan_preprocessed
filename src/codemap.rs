@@ -114,22 +114,22 @@ where
         let directives = line_ranges
             .iter()
             .enumerate()
-            .filter(|(_, r)| contents.as_ref()[r.start..r.end].starts_with("#line"))
+            .filter(|(_, r)| contents.as_ref()[r.start..r.end].starts_with("# "))
             .map(|(l, r)| {
                 let str = &contents.as_ref()[r.start..r.end];
-                if let Some(sep) = str[6..].find(' ') {
-                    let sep = sep + 6;
+                if let Some(sep) = str[2..].find(' ') && let Some(end) = str.rfind('"') {
+                    let sep = sep + 2;
                     LineDirective {
                         line_index: l,
                         byte_index: r.start,
-                        offset: l as isize + 2 - str[6..sep].parse::<isize>().unwrap(),
-                        filename: Some(r.start + sep + 2..r.start + str.len() - 1),
+                        offset: l as isize + 2 - str[2..sep].parse::<isize>().unwrap(),
+                        filename: Some(r.start + sep + 2..r.start + end),
                     }
                 } else {
                     LineDirective {
                         line_index: l,
                         byte_index: r.start,
-                        offset: l as isize + 2 - str[6..].parse::<isize>().unwrap(),
+                        offset: l as isize + 2 - str[2..].parse::<isize>().unwrap(),
                         filename: None,
                     }
                 }

@@ -2,7 +2,7 @@
 name = "codespan_preprocessed"
 version = "0.9.0"
 authors = ["Xophe <christophe.dousson@orange.com>"]
-edition = "2021"
+edition = "2024"
 license = "MIT"
 description = "Beautiful diagnostic reporting for M4 (or cpp) preprocessed text files"
 repository = "https://github.com/XopheD/codespan_preprocessed"
